@@ -59,7 +59,7 @@ import components.sortingmachine.SortingMachineSecondary;
  *   this = (false, $this.machineOrder, multiset_entries($this.heap[0, $this.heapSize)))
  * </pre>
  *
- * @author Put your name here
+ * @author Nicholas McCracken and Jack Mikesell
  *
  */
 public class SortingMachine5a<T> extends SortingMachineSecondary<T> {
@@ -115,8 +115,9 @@ public class SortingMachine5a<T> extends SortingMachineSecondary<T> {
         assert 0 <= j : "Violation of: 0 <= j";
         assert j < array.length : "Violation of: j < |array|";
 
-        // TODO - fill in body
-
+        T temp = array[i];
+        array[i] = array[j];
+        array[j] = temp;
     }
 
     /**
@@ -178,9 +179,20 @@ public class SortingMachine5a<T> extends SortingMachineSecondary<T> {
          * representation for a complete binary tree.
          */
 
-        // TODO - fill in body
-        // *** you must use the recursive algorithm discussed in class ***
+        int left = top * 2 + 1;
+        if (left <= last) {
+            int right = left + 1;
+            int minIndex = left;
 
+            if (right <= last && order.compare(array[right], array[left]) < 0) {
+                minIndex = right;
+            }
+
+            if (order.compare(array[top], array[minIndex]) >= 0) {
+                exchangeEntries(array, top, minIndex);
+                siftDown(array, minIndex, last, order);
+            }
+        }
     }
 
     /**
