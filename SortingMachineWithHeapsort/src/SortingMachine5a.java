@@ -3,6 +3,7 @@ import java.util.Iterator;
 import java.util.NoSuchElementException;
 
 import components.queue.Queue;
+import components.queue.Queue1L;
 import components.sortingmachine.SortingMachine;
 import components.sortingmachine.SortingMachineSecondary;
 
@@ -408,9 +409,10 @@ public class SortingMachine5a<T> extends SortingMachineSecondary<T> {
      * </pre>
      */
     private void createNewRep(Comparator<T> order) {
-
-        // TODO - fill in body
-
+        this.insertionMode = true;
+        this.machineOrder = order;
+        this.entries = new Queue1L<>();
+        this.heapSize = 0;
     }
 
     /*
