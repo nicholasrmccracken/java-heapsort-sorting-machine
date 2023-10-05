@@ -235,8 +235,17 @@ public class SortingMachine5a<T> extends SortingMachineSecondary<T> {
          * representation for a complete binary tree.
          */
 
-        // TODO - fill in body
-        // *** you must use the recursive algorithm discussed in class ***
+        int left = top * 2 + 1;
+        if (left <= array.length - 1) {
+            heapify(array, left, order);
+            int right = left + 1;
+
+            if (right <= array.length - 1) {
+                heapify(array, right, order);
+            }
+
+            siftDown(array, top, array.length - 1, order);
+        }
 
     }
 
