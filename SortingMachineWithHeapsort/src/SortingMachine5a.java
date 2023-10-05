@@ -494,7 +494,8 @@ public class SortingMachine5a<T> extends SortingMachineSecondary<T> {
         assert this.isInInsertionMode() : "Violation of: this.insertion_mode";
 
         this.insertionMode = false;
-        this.heapSize = this.heap.length;
+        this.heapSize = this.entries.length();
+        this.heap = buildHeap(this.entries, this.machineOrder);
 
         assert this.conventionHolds();
     }
@@ -507,7 +508,9 @@ public class SortingMachine5a<T> extends SortingMachineSecondary<T> {
 
         T minimum = this.heap[0];
 
+        exchangeEntries(this.heap, 0, this.heapSize - 1);
         this.heapSize--;
+        siftDown(this.heap, 0, this.heapSize - 1, this.machineOrder);
 
         assert this.conventionHolds();
         // Fix this line to return the result after checking the convention.
