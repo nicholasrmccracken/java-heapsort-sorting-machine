@@ -118,9 +118,12 @@ public abstract class SortingMachineTest {
     private static final StringLT ORDER = new StringLT();
 
     /*
-     * Sample test cases.
+     * Test cases for constructors;
      */
 
+    /**
+     * Test constructor with string comparator ORDER.
+     */
     @Test
     public final void testConstructor() {
         SortingMachine<String> m = this.constructorTest(ORDER);
@@ -128,12 +131,61 @@ public abstract class SortingMachineTest {
         assertEquals(mExpected, m);
     }
 
+    /*
+     * Test cases for kernel methods.
+     */
+
+    /**
+     * Test add by adding one element added to an empty set.
+     */
     @Test
-    public final void testAddEmpty() {
+    public final void testAddOneToEmpty() {
         SortingMachine<String> m = this.createFromArgsTest(ORDER, true);
         SortingMachine<String> mExpected = this.createFromArgsRef(ORDER, true,
                 "green");
         m.add("green");
+        assertEquals(mExpected, m);
+    }
+
+    /**
+     * Test add by adding many elements added to an empty set.
+     */
+    @Test
+    public final void testAddManyToEmpty() {
+        SortingMachine<String> m = this.createFromArgsTest(ORDER, true);
+        SortingMachine<String> mExpected = this.createFromArgsRef(ORDER, true,
+                "green", "blue", "red");
+        m.add("green");
+        m.add("blue");
+        m.add("red");
+        assertEquals(mExpected, m);
+    }
+
+    /**
+     * Test add by adding one element added to a nonempty set.
+     */
+    @Test
+    public final void testAddOneToNonEmpty() {
+        SortingMachine<String> m = this.createFromArgsTest(ORDER, true,
+                "yellow", "purple", "brown");
+        SortingMachine<String> mExpected = this.createFromArgsRef(ORDER, true,
+                "green", "yellow", "purple", "brown");
+        m.add("green");
+        assertEquals(mExpected, m);
+    }
+
+    /**
+     * Test add by adding many elements added to a nonempty set.
+     */
+    @Test
+    public final void testAddManyToNonEmpty() {
+        SortingMachine<String> m = this.createFromArgsTest(ORDER, true,
+                "yellow", "purple", "brown");
+        SortingMachine<String> mExpected = this.createFromArgsRef(ORDER, true,
+                "green", "blue", "red", "yellow", "purple", "brown");
+        m.add("green");
+        m.add("blue");
+        m.add("red");
         assertEquals(mExpected, m);
     }
 
