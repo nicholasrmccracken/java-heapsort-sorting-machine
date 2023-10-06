@@ -322,6 +322,29 @@ public abstract class SortingMachineTest {
     }
 
     /**
+     * Test removeFirst by removing many elements in a nonempty sorting machine.
+     */
+    @Test
+    public final void testRemoveFirstManyComplete() {
+        SortingMachine<String> m = this.createFromArgsTest(ORDER, false,
+                "green", "blue", "red", "yellow", "purple", "brown", "green");
+        SortingMachine<String> mExpected = this.createFromArgsRef(ORDER, false,
+                "green", "blue", "red", "yellow", "purple", "brown", "green");
+
+        String element1 = m.removeFirst();
+        String elementExpected1 = mExpected.removeFirst();
+        String element2 = m.removeFirst();
+        String elementExpected2 = mExpected.removeFirst();
+        String element3 = m.removeFirst();
+        String elementExpected3 = mExpected.removeFirst();
+
+        assertEquals(elementExpected1, element1);
+        assertEquals(elementExpected2, element2);
+        assertEquals(elementExpected3, element3);
+        assertEquals(mExpected, m);
+    }
+
+    /**
      * Test isInsertionMode when insertionMode is initialized as true.
      */
     @Test

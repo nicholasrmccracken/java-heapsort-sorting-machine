@@ -116,6 +116,10 @@ public class SortingMachine5a<T> extends SortingMachineSecondary<T> {
         assert 0 <= j : "Violation of: 0 <= j";
         assert j < array.length : "Violation of: j < |array|";
 
+        /*
+         * Swap entries using temporary variable to storage the first entry to
+         * be reassigned.
+         */
         T temp = array[i];
         array[i] = array[j];
         array[j] = temp;
@@ -180,6 +184,12 @@ public class SortingMachine5a<T> extends SortingMachineSecondary<T> {
          * representation for a complete binary tree.
          */
 
+        /*
+         * If the root node has two children and it is smaller than at least one
+         * of them, swap it with it's smallest child then make a recursive call
+         * to sift down. If it only has a left child, assume the left child as
+         * the smallest.
+         */
         int left = top * 2 + 1;
         if (left <= last) {
             int right = left + 1;
@@ -189,7 +199,7 @@ public class SortingMachine5a<T> extends SortingMachineSecondary<T> {
                 minIndex = right;
             }
 
-            if (order.compare(array[top], array[minIndex]) >= 0) {
+            if (order.compare(array[top], array[minIndex]) > 0) {
                 exchangeEntries(array, top, minIndex);
                 siftDown(array, minIndex, last, order);
             }
@@ -236,6 +246,10 @@ public class SortingMachine5a<T> extends SortingMachineSecondary<T> {
          * representation for a complete binary tree.
          */
 
+        /*
+         * Make a recursive call to heapify the left subtree if the left child
+         * exists. Repeat with the right child if it exists.
+         */
         int left = top * 2 + 1;
         if (left <= array.length - 1) {
             heapify(array, left, order);
@@ -245,6 +259,11 @@ public class SortingMachine5a<T> extends SortingMachineSecondary<T> {
                 heapify(array, right, order);
             }
 
+            /*
+             * Sift the root down the newly heapified left and right subtrees
+             * such that the entire array follows the heap structure specified
+             * by the order.
+             */
             siftDown(array, top, array.length - 1, order);
         }
 
@@ -285,10 +304,17 @@ public class SortingMachine5a<T> extends SortingMachineSecondary<T> {
          */
         T[] heap = (T[]) (new Object[q.length()]);
         int count = 0;
+        /*
+         * Add all entries from the queue to the heap array.
+         */
         while (q.length() != 0) {
             heap[count] = q.dequeue();
             count++;
         }
+        /*
+         * Sort the entries in the new heap array to match intended heap
+         * structure based on the order.
+         */
         heapify(heap, 0, order);
 
         return heap;
@@ -484,6 +510,10 @@ public class SortingMachine5a<T> extends SortingMachineSecondary<T> {
         assert x != null : "Violation of: x is not null";
         assert this.isInInsertionMode() : "Violation of: this.insertion_mode";
 
+        /*
+         * When adding, this is in insertion mode, so the queue is used to add
+         * elements.
+         */
         this.entries.enqueue(x);
 
         assert this.conventionHolds();
@@ -493,6 +523,12 @@ public class SortingMachine5a<T> extends SortingMachineSecondary<T> {
     public final void changeToExtractionMode() {
         assert this.isInInsertionMode() : "Violation of: this.insertion_mode";
 
+        /*
+         * When changing to extraction mode, the representation of this changes
+         * from a queue, to a heap, so the elements from the queue must be
+         * cleared and added to the heap to properly represent this for any
+         * potential extractions which are enacted on the heap representation.
+         */
         this.insertionMode = false;
         this.heapSize = this.entries.length();
         this.heap = buildHeap(this.entries, this.machineOrder);
@@ -506,15 +542,28 @@ public class SortingMachine5a<T> extends SortingMachineSecondary<T> {
                 .isInInsertionMode() : "Violation of: not this.insertion_mode";
         assert this.size() > 0 : "Violation of: this.contents /= {}";
 
-        T minimum = this.heap[0];
+        /*
+         * The first element to be removed is always the root, which is
+         * represented by the first element in the heap array.
+         */
+        T root = this.heap[0];
 
+        /*
+         * The root must be swapped with the last element, and the size
+         * decremented to indicate the last element, which is now the previous
+         * root, is no longer in the heap.
+         */
         exchangeEntries(this.heap, 0, this.heapSize - 1);
         this.heapSize--;
+        /*
+         * The new root may not fit the machine order, so it must be sifted down
+         * through the heap to ensure the order of heap entries is maintained.
+         */
         siftDown(this.heap, 0, this.heapSize - 1, this.machineOrder);
 
         assert this.conventionHolds();
-        // Fix this line to return the result after checking the convention.
-        return minimum;
+
+        return root;
     }
 
     @Override
@@ -533,6 +582,12 @@ public class SortingMachine5a<T> extends SortingMachineSecondary<T> {
     public final int size() {
         int size = 0;
 
+        /*
+         * If this is in insertion mode then the entries of this are in the
+         * queue, so the size of the queue must be returned. Otherwise, the
+         * entries of this are in the heap, so the size of the heap must be
+         * returned.
+         */
         if (this.insertionMode) {
             size = this.entries.length();
         } else {
@@ -540,7 +595,7 @@ public class SortingMachine5a<T> extends SortingMachineSecondary<T> {
         }
 
         assert this.conventionHolds();
-        // Fix this line to return the result after checking the convention.
+
         return size;
     }
 
