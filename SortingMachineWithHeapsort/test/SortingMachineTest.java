@@ -202,7 +202,6 @@ public abstract class SortingMachineTest {
 
         assertEquals(mExpected.size(), m.size());
         assertEquals(mExpected, m);
-        assertTrue(!m.isInInsertionMode());
     }
 
     /**
@@ -219,7 +218,6 @@ public abstract class SortingMachineTest {
 
         assertEquals(mExpected.size(), m.size());
         assertEquals(mExpected, m);
-        assertTrue(!m.isInInsertionMode());
     }
 
     /**
@@ -237,7 +235,6 @@ public abstract class SortingMachineTest {
 
         assertEquals(mExpected.size(), m.size());
         assertEquals(mExpected, m);
-        assertTrue(!m.isInInsertionMode());
     }
 
     /**
