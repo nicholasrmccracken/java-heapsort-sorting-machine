@@ -1,4 +1,5 @@
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import java.util.Comparator;
 
@@ -136,7 +137,7 @@ public abstract class SortingMachineTest {
      */
 
     /**
-     * Test add by adding one element added to an empty set.
+     * Test add by adding one element added to an empty sorting machine.
      */
     @Test
     public final void testAddOneToEmpty() {
@@ -148,7 +149,7 @@ public abstract class SortingMachineTest {
     }
 
     /**
-     * Test add by adding many elements added to an empty set.
+     * Test add by adding many elements added to an empty sorting machine.
      */
     @Test
     public final void testAddManyToEmpty() {
@@ -162,7 +163,7 @@ public abstract class SortingMachineTest {
     }
 
     /**
-     * Test add by adding one element added to a nonempty set.
+     * Test add by adding one element added to a nonempty sorting machine.
      */
     @Test
     public final void testAddOneToNonEmpty() {
@@ -175,7 +176,7 @@ public abstract class SortingMachineTest {
     }
 
     /**
-     * Test add by adding many elements added to a nonempty set.
+     * Test add by adding many elements added to a nonempty sorting machine.
      */
     @Test
     public final void testAddManyToNonEmpty() {
@@ -189,7 +190,235 @@ public abstract class SortingMachineTest {
         assertEquals(mExpected, m);
     }
 
-    // TODO - add test cases for add, changeToExtractionMode, removeFirst,
-    // isInInsertionMode, order, and size
+    /**
+     * Test changeToExtracionMode by calling method on an empty sorting machine.
+     */
+    @Test
+    public final void testChangeToExtractionModeEmpty() {
+        SortingMachine<String> m = this.createFromArgsTest(ORDER, true);
+        SortingMachine<String> mExpected = this.createFromArgsRef(ORDER, false);
+
+        m.changeToExtractionMode();
+
+        assertEquals(mExpected.size(), m.size());
+        assertEquals(mExpected, m);
+        assertTrue(!m.isInInsertionMode());
+    }
+
+    /**
+     * Test changeToExtracionMode by calling method on a sorting machine with a
+     * single element.
+     */
+    @Test
+    public final void testChangeToExtractionModeSingle() {
+        SortingMachine<String> m = this.createFromArgsTest(ORDER, true, "red");
+        SortingMachine<String> mExpected = this.createFromArgsRef(ORDER, false,
+                "red");
+
+        m.changeToExtractionMode();
+
+        assertEquals(mExpected.size(), m.size());
+        assertEquals(mExpected, m);
+        assertTrue(!m.isInInsertionMode());
+    }
+
+    /**
+     * Test changeToExtracionMode by calling method on a sorting machine with a
+     * multiple elements.
+     */
+    @Test
+    public final void testChangeToExtractionModeMany() {
+        SortingMachine<String> m = this.createFromArgsTest(ORDER, true, "green",
+                "blue", "red", "yellow", "purple", "brown");
+        SortingMachine<String> mExpected = this.createFromArgsRef(ORDER, false,
+                "green", "blue", "red", "yellow", "purple", "brown");
+
+        m.changeToExtractionMode();
+
+        assertEquals(mExpected.size(), m.size());
+        assertEquals(mExpected, m);
+        assertTrue(!m.isInInsertionMode());
+    }
+
+    /**
+     * Test removeFirst by removing one element to make a nonempty sorting
+     * machine empty.
+     */
+    @Test
+    public final void testRemoveFirstOneToEmpty() {
+        SortingMachine<String> m = this.createFromArgsTest(ORDER, false,
+                "green");
+        SortingMachine<String> mExpected = this.createFromArgsRef(ORDER, false,
+                "green");
+
+        String element = m.removeFirst();
+        String elementExpected = mExpected.removeFirst();
+
+        assertEquals(elementExpected, element);
+        assertEquals(mExpected, m);
+    }
+
+    /**
+     * Test removeFirst by removing all elements in a nonempty sorting machine.
+     */
+    @Test
+    public final void testRemoveFirstManyToEmpty() {
+        SortingMachine<String> m = this.createFromArgsTest(ORDER, false,
+                "green", "red", "blue");
+        SortingMachine<String> mExpected = this.createFromArgsRef(ORDER, false,
+                "green", "red", "blue");
+
+        String element1 = m.removeFirst();
+        String elementExpected1 = mExpected.removeFirst();
+        String element2 = m.removeFirst();
+        String elementExpected2 = mExpected.removeFirst();
+        String element3 = m.removeFirst();
+        String elementExpected3 = mExpected.removeFirst();
+
+        assertEquals(elementExpected1, element1);
+        assertEquals(elementExpected2, element2);
+        assertEquals(elementExpected3, element3);
+        assertEquals(mExpected, m);
+    }
+
+    /**
+     * Test removeFirst by removing one element from a nonempty sorting machine.
+     */
+    @Test
+    public final void testRemoveFirstOneToNonEmpty() {
+        SortingMachine<String> m = this.createFromArgsTest(ORDER, false,
+                "green", "blue", "red", "yellow", "purple", "brown");
+        SortingMachine<String> mExpected = this.createFromArgsRef(ORDER, false,
+                "green", "blue", "red", "yellow", "purple", "brown");
+
+        String element = m.removeFirst();
+        String elementExpected = mExpected.removeFirst();
+
+        assertEquals(elementExpected, element);
+        assertEquals(mExpected, m);
+    }
+
+    /**
+     * Test removeFirst by removing many elements in a nonempty sorting machine.
+     */
+    @Test
+    public final void testRemoveFirstManyToNonEmpty() {
+        SortingMachine<String> m = this.createFromArgsTest(ORDER, false,
+                "green", "blue", "red", "yellow", "purple", "brown");
+        SortingMachine<String> mExpected = this.createFromArgsRef(ORDER, false,
+                "green", "blue", "red", "yellow", "purple", "brown");
+
+        String element1 = m.removeFirst();
+        String elementExpected1 = mExpected.removeFirst();
+        String element2 = m.removeFirst();
+        String elementExpected2 = mExpected.removeFirst();
+        String element3 = m.removeFirst();
+        String elementExpected3 = mExpected.removeFirst();
+
+        assertEquals(elementExpected1, element1);
+        assertEquals(elementExpected2, element2);
+        assertEquals(elementExpected3, element3);
+        assertEquals(mExpected, m);
+    }
+
+    /**
+     * Test isInsertionMode when insertionMode is initialized as true.
+     */
+    @Test
+    public final void testIsInsertionModeTrue() {
+        SortingMachine<String> m = this.createFromArgsTest(ORDER, true);
+
+        assertTrue(m.isInInsertionMode());
+    }
+
+    /**
+     * Test isInsertionMode when insertionMode is initialized as false.
+     */
+    @Test
+    public final void testIsInsertionModeFalse() {
+        SortingMachine<String> m = this.createFromArgsTest(ORDER, false);
+
+        assertTrue(!m.isInInsertionMode());
+    }
+
+    /**
+     * Test isInsertionMode when insertionMode is changed via
+     * changeToExtractionMode.
+     */
+    @Test
+    public final void testIsInsertionModePostChange() {
+        SortingMachine<String> m = this.createFromArgsTest(ORDER, true);
+
+        m.changeToExtractionMode();
+
+        assertTrue(!m.isInInsertionMode());
+    }
+
+    /**
+     * Test order when machine order is initialized to ORDER.
+     */
+    @Test
+    public final void testOrder() {
+        SortingMachine<String> m = this.createFromArgsTest(ORDER, true);
+
+        assertEquals(ORDER, m.order());
+    }
+
+    /**
+     * Test size when sorting machine is empty.
+     */
+    @Test
+    public final void testSizeEmpty() {
+        SortingMachine<String> m = this.createFromArgsTest(ORDER, true);
+
+        assertEquals(0, m.size());
+    }
+
+    /**
+     * Test size when sorting machine has one element.
+     */
+    @Test
+    public final void testSizeOne() {
+        SortingMachine<String> m = this.createFromArgsTest(ORDER, true, "red");
+
+        assertEquals(1, m.size());
+    }
+
+    /**
+     * Test size when sorting machine has many elements.
+     */
+    @Test
+    public final void testSizeMany() {
+        SortingMachine<String> m = this.createFromArgsTest(ORDER, true, "green",
+                "blue", "red", "yellow", "purple", "brown");
+
+        assertEquals(6, m.size());
+    }
+
+    /**
+     * Test size after adding an element to sorting machine.
+     */
+    @Test
+    public final void testSizePostAdd() {
+        SortingMachine<String> m = this.createFromArgsTest(ORDER, true,
+                "green");
+
+        m.add("red");
+
+        assertEquals(2, m.size());
+    }
+
+    /**
+     * Test size after removing an element from sorting machine.
+     */
+    @Test
+    public final void testSizePostRemove() {
+        SortingMachine<String> m = this.createFromArgsTest(ORDER, false,
+                "green");
+
+        m.removeFirst();
+
+        assertEquals(0, m.size());
+    }
 
 }
