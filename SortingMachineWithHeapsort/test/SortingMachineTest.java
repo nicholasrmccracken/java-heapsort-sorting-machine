@@ -441,4 +441,33 @@ public abstract class SortingMachineTest {
         assertEquals(0, m.size());
     }
 
+    /**
+     * Test size after removing multiple elements from sorting machine.
+     */
+    @Test
+    public final void testSizePostRemoveMultiple() {
+        SortingMachine<String> m = this.createFromArgsTest(ORDER, false,
+                "green", "red", "blue", "purple");
+
+        m.removeFirst();
+        m.removeFirst();
+        m.removeFirst();
+
+        assertEquals(1, m.size());
+    }
+
+    /**
+     * Test size after adding multiple elements to sorting machine.
+     */
+    @Test
+    public final void testSizePostAddMultiple() {
+        SortingMachine<String> m = this.createFromArgsTest(ORDER, true,
+                "green");
+
+        m.add("red");
+        m.add("blue");
+        m.add("purple");
+
+        assertEquals(4, m.size());
+    }
 }
